@@ -1,0 +1,43 @@
+{
+  "name": "wheezy-waiter-uploads",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test:lint": "eslint",
+    "test": "run-p test:**",
+    "build": "run-p build:**",
+    "build:player": "node build.js player",
+    "build:youtube-playlist-puller": "node build.js youtube-playlist-puller",
+    "watch": "run-p watch:**",
+    "watch:player": "node cheap_watch.js player node build.js player",
+    "watch:youtube-playlist-puller": "node cheap_watch.js youtube-playlist-puller node build.js youtube-playlist-puller",
+    "serve": "live-server --no-css-inject --no-browser docs",
+    "dev": "run-p watch serve"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArtskydJ/wheezy-waiter-uploads.git"
+  },
+  "author": "ArtskydJ",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArtskydJ/wheezy-waiter-uploads/issues"
+  },
+  "homepage": "https://github.com/ArtskydJ/wheezy-waiter-uploads#readme",
+  "devDependencies": {
+    "eslint": "^8.14.0",
+    "eslint-plugin-html": "^6.2.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-svelte3": "^3.4.1",
+    "live-server": "^1.2.2",
+    "npm-run-all": "^4.1.5",
+    "svelte-check": "^2.7.0"
+  },
+  "dependencies": {
+    "cheap-watch": "^1.0.4",
+    "esbuild": "^0.14.38",
+    "esbuild-svelte": "^0.7.0"
+  }
+}

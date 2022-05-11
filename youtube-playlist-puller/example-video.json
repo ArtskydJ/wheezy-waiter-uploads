@@ -1,0 +1,44 @@
+{
+    "kind": "youtube#playlistItem",
+    "etag": "YCar4OR79tpnliKHiN6jgYbgxqM",
+    "id": "VVVRTDVBQlV2d1k3WW9XNWxnTXlBU193LnMyN3BxZFF3YU93",
+    "snippet": {
+        "publishedAt": "2007-06-10T08:46:28Z",
+        "channelId": "UCQL5ABUvwY7YoW5lgMyAS_w",
+        "title": "The Chum",
+        "description": "June 6, 2007\nthe wheezy waiter's first installment of \"it's a mad mad mad mad mad mad.... there are a bunch of different types of waiters\".\n\nmore at www.wheezywaiter.blogspot.com",
+        "thumbnails": {
+            "default": {
+                "url": "https://i.ytimg.com/vi/s27pqdQwaOw/default.jpg",
+                "width": 120,
+                "height": 90
+            },
+            "medium": {
+                "url": "https://i.ytimg.com/vi/s27pqdQwaOw/mqdefault.jpg",
+                "width": 320,
+                "height": 180
+            },
+            "high": {
+                "url": "https://i.ytimg.com/vi/s27pqdQwaOw/hqdefault.jpg",
+                "width": 480,
+                "height": 360
+            }
+        },
+        "channelTitle": "WheezyWaiter",
+        "playlistId": "UUQL5ABUvwY7YoW5lgMyAS_w",
+        "position": 1582,
+        "resourceId": {
+            "kind": "youtube#video",
+            "videoId": "s27pqdQwaOw"
+        },
+        "videoOwnerChannelTitle": "WheezyWaiter",
+        "videoOwnerChannelId": "UCQL5ABUvwY7YoW5lgMyAS_w"
+    },
+    "contentDetails": {
+        "videoId": "s27pqdQwaOw",
+        "videoPublishedAt": "2007-06-10T08:46:28Z"
+    },
+    "status": {
+        "privacyStatus": "public"
+    }
+}

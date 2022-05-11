@@ -1,0 +1,16 @@
+/* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/youtube-playlist-puller/YoutubePlaylistPuller.esbuild-svelte-fake-css */
+.row.svelte-1bk08fv {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  align-items: flex-end;
+  margin-bottom: 1em;
+}
+label.svelte-1bk08fv {
+  display: block;
+  color: #555;
+  font-size: 0.75em;
+}
+input.svelte-1bk08fv {
+  width: 350px;
+}

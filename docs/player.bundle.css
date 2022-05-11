@@ -1,0 +1,59 @@
+/* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/player/SidebarItem.esbuild-svelte-fake-css */
+.item.svelte-1u872v7 {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  border: 1px solid transparent;
+  box-sizing: border-box;
+  width: 100%;
+  align-items: center;
+  text-decoration: none;
+  color: black;
+}
+.item.svelte-1u872v7:hover {
+  border: 1px solid #aaa;
+  background-color: #ddd;
+}
+.item[data-selected=true].svelte-1u872v7 {
+  background-color: #eee;
+}
+.text.svelte-1u872v7 {
+  padding: 0 0.5em;
+}
+.small.svelte-1u872v7 {
+  font-size: 0.6em;
+}
+
+/* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/player/Sidebar.esbuild-svelte-fake-css */
+.hideoverflow.svelte-1njextn {
+  overflow: hidden;
+}
+
+/* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/player/Description.esbuild-svelte-fake-css */
+.meta.svelte-dkxruu {
+  padding: 0 0.5em 2em;
+  box-sizing: border-box;
+}
+hr.svelte-dkxruu {
+  border: 0;
+  border-bottom: 1px solid #bbb;
+}
+article.svelte-dkxruu {
+  white-space: pre-wrap;
+}
+
+/* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/player/Player.esbuild-svelte-fake-css */
+body {
+  margin: 0;
+  padding: 0;
+}
+.split.svelte-14cioil.svelte-14cioil {
+  display: flex;
+  flex-direction: row;
+  max-height: 100%;
+}
+.split.svelte-14cioil > div.svelte-14cioil {
+  max-height: 100%;
+  overflow-y: auto;
+  flex: 1 0 auto;
+}
