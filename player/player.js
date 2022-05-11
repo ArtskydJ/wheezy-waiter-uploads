@@ -4,5 +4,4 @@ new Player({
 	target: document.body,
 })
 
-const observer = window.lozad()
-observer.observe()
+window.lozad().observe()

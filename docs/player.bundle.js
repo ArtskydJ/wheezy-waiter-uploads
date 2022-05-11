@@ -530,6 +530,7 @@
   function create_fragment2(ctx) {
     let a;
     let img;
+    let img_data_src_value;
     let t0;
     let div1;
     let t1_value = ctx[2].title + "";
@@ -553,7 +554,7 @@
         div0 = element("div");
         create_component(date.$$.fragment);
         attr(img, "class", "lozad");
-        attr(img, "data-src", ctx[5]);
+        attr(img, "data-src", img_data_src_value = ctx[2].thumbnails.default.url);
         attr(img, "width", ctx[4]);
         attr(img, "height", ctx[3]);
         attr(img, "alt", "thumbnail");
@@ -576,8 +577,8 @@
         current = true;
       },
       p(ctx2, [dirty]) {
-        if (!current || dirty & 32) {
-          attr(img, "data-src", ctx2[5]);
+        if (!current || dirty & 4 && img_data_src_value !== (img_data_src_value = ctx2[2].thumbnails.default.url)) {
+          attr(img, "data-src", img_data_src_value);
         }
         if (!current || dirty & 16) {
           attr(img, "width", ctx2[4]);
@@ -620,7 +621,6 @@
   }
   var sizeMultiplier = 0.6;
   function instance2($$self, $$props, $$invalidate) {
-    let src;
     let width;
     let height;
     let { hoverText } = $$props;
@@ -642,10 +642,6 @@
     $$self.$$.update = () => {
       if ($$self.$$.dirty & 4) {
         $:
-          $$invalidate(5, src = snippet.thumbnails.default.url);
-      }
-      if ($$self.$$.dirty & 4) {
-        $:
           $$invalidate(4, width = snippet.thumbnails.default.width * sizeMultiplier);
       }
       if ($$self.$$.dirty & 4) {
@@ -653,7 +649,7 @@
           $$invalidate(3, height = snippet.thumbnails.default.height * sizeMultiplier);
       }
     };
-    return [hoverText, isSelected, snippet, height, width, src];
+    return [hoverText, isSelected, snippet, height, width];
   }
   var SidebarItem = class extends SvelteComponent {
     constructor(options) {
@@ -956,10 +952,16 @@
   var Description_default = Description;
 
   // player/Player.svelte
-  function create_if_block(ctx) {
+  function create_else_block(ctx) {
+    let div2;
+    let div0;
     let video;
-    let t;
+    let t0;
     let description;
+    let div0_resize_listener;
+    let t1;
+    let div1;
+    let sidebar;
     let current;
     video = new Video_default({
       props: {
@@ -970,16 +972,37 @@
       }
     });
     description = new Description_default({ props: { snippet: ctx[3] } });
+    sidebar = new Sidebar_default({
+      props: {
+        videos: ctx[2],
+        currentVideoId: ctx[3].resourceId.videoId
+      }
+    });
     return {
       c() {
+        div2 = element("div");
+        div0 = element("div");
         create_component(video.$$.fragment);
-        t = space();
+        t0 = space();
         create_component(description.$$.fragment);
+        t1 = space();
+        div1 = element("div");
+        create_component(sidebar.$$.fragment);
+        attr(div0, "class", "left svelte-114633p");
+        add_render_callback(() => ctx[5].call(div0));
+        attr(div1, "class", "right svelte-114633p");
+        attr(div2, "class", "split svelte-114633p");
       },
       m(target, anchor) {
-        mount_component(video, target, anchor);
-        insert(target, t, anchor);
-        mount_component(description, target, anchor);
+        insert(target, div2, anchor);
+        append(div2, div0);
+        mount_component(video, div0, null);
+        append(div0, t0);
+        mount_component(description, div0, null);
+        div0_resize_listener = add_resize_listener(div0, ctx[5].bind(div0));
+        append(div2, t1);
+        append(div2, div1);
+        mount_component(sidebar, div1, null);
         current = true;
       },
       p(ctx2, dirty) {
@@ -995,124 +1018,124 @@
         if (dirty & 8)
           description_changes.snippet = ctx2[3];
         description.$set(description_changes);
+        const sidebar_changes = {};
+        if (dirty & 4)
+          sidebar_changes.videos = ctx2[2];
+        if (dirty & 8)
+          sidebar_changes.currentVideoId = ctx2[3].resourceId.videoId;
+        sidebar.$set(sidebar_changes);
       },
       i(local) {
         if (current)
           return;
         transition_in(video.$$.fragment, local);
         transition_in(description.$$.fragment, local);
+        transition_in(sidebar.$$.fragment, local);
         current = true;
       },
       o(local) {
         transition_out(video.$$.fragment, local);
         transition_out(description.$$.fragment, local);
-        current = false;
-      },
-      d(detaching) {
-        destroy_component(video, detaching);
-        if (detaching)
-          detach(t);
-        destroy_component(description, detaching);
-      }
-    };
-  }
-  function create_fragment6(ctx) {
-    let div2;
-    let div0;
-    let div0_resize_listener;
-    let t;
-    let div1;
-    let sidebar;
-    let current;
-    let if_block = ctx[3] && create_if_block(ctx);
-    sidebar = new Sidebar_default({
-      props: {
-        videos: ctx[2],
-        currentVideoId: ctx[3]?.resourceId?.videoId
-      }
-    });
-    return {
-      c() {
-        div2 = element("div");
-        div0 = element("div");
-        if (if_block)
-          if_block.c();
-        t = space();
-        div1 = element("div");
-        create_component(sidebar.$$.fragment);
-        set_style(div0, "flex-basis", "calc(100% - 350px)");
-        set_style(div0, "overflow-x", "hidden");
-        set_style(div0, "overflow-y", "scroll");
-        attr(div0, "class", "svelte-14cioil");
-        add_render_callback(() => ctx[5].call(div0));
-        set_style(div1, "flex-basis", "350px");
-        attr(div1, "class", "svelte-14cioil");
-        attr(div2, "class", "split svelte-14cioil");
-      },
-      m(target, anchor) {
-        insert(target, div2, anchor);
-        append(div2, div0);
-        if (if_block)
-          if_block.m(div0, null);
-        div0_resize_listener = add_resize_listener(div0, ctx[5].bind(div0));
-        append(div2, t);
-        append(div2, div1);
-        mount_component(sidebar, div1, null);
-        current = true;
-      },
-      p(ctx2, [dirty]) {
-        if (ctx2[3]) {
-          if (if_block) {
-            if_block.p(ctx2, dirty);
-            if (dirty & 8) {
-              transition_in(if_block, 1);
-            }
-          } else {
-            if_block = create_if_block(ctx2);
-            if_block.c();
-            transition_in(if_block, 1);
-            if_block.m(div0, null);
-          }
-        } else if (if_block) {
-          group_outros();
-          transition_out(if_block, 1, 1, () => {
-            if_block = null;
-          });
-          check_outros();
-        }
-        const sidebar_changes = {};
-        if (dirty & 4)
-          sidebar_changes.videos = ctx2[2];
-        if (dirty & 8)
-          sidebar_changes.currentVideoId = ctx2[3]?.resourceId?.videoId;
-        sidebar.$set(sidebar_changes);
-      },
-      i(local) {
-        if (current)
-          return;
-        transition_in(if_block);
-        transition_in(sidebar.$$.fragment, local);
-        current = true;
-      },
-      o(local) {
-        transition_out(if_block);
         transition_out(sidebar.$$.fragment, local);
         current = false;
       },
       d(detaching) {
         if (detaching)
           detach(div2);
-        if (if_block)
-          if_block.d();
+        destroy_component(video);
+        destroy_component(description);
         div0_resize_listener();
         destroy_component(sidebar);
       }
     };
   }
+  function create_if_block(ctx) {
+    let p;
+    return {
+      c() {
+        p = element("p");
+        p.textContent = "Loading...";
+        set_style(p, "text-align", "center");
+      },
+      m(target, anchor) {
+        insert(target, p, anchor);
+      },
+      p: noop,
+      i: noop,
+      o: noop,
+      d(detaching) {
+        if (detaching)
+          detach(p);
+      }
+    };
+  }
+  function create_fragment6(ctx) {
+    let current_block_type_index;
+    let if_block;
+    let if_block_anchor;
+    let current;
+    const if_block_creators = [create_if_block, create_else_block];
+    const if_blocks = [];
+    function select_block_type(ctx2, dirty) {
+      if (!ctx2[3])
+        return 0;
+      return 1;
+    }
+    current_block_type_index = select_block_type(ctx, -1);
+    if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    return {
+      c() {
+        if_block.c();
+        if_block_anchor = empty();
+      },
+      m(target, anchor) {
+        if_blocks[current_block_type_index].m(target, anchor);
+        insert(target, if_block_anchor, anchor);
+        current = true;
+      },
+      p(ctx2, [dirty]) {
+        let previous_block_index = current_block_type_index;
+        current_block_type_index = select_block_type(ctx2, dirty);
+        if (current_block_type_index === previous_block_index) {
+          if_blocks[current_block_type_index].p(ctx2, dirty);
+        } else {
+          group_outros();
+          transition_out(if_blocks[previous_block_index], 1, 1, () => {
+            if_blocks[previous_block_index] = null;
+          });
+          check_outros();
+          if_block = if_blocks[current_block_type_index];
+          if (!if_block) {
+            if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx2);
+            if_block.c();
+          } else {
+            if_block.p(ctx2, dirty);
+          }
+          transition_in(if_block, 1);
+          if_block.m(if_block_anchor.parentNode, if_block_anchor);
+        }
+      },
+      i(local) {
+        if (current)
+          return;
+        transition_in(if_block);
+        current = true;
+      },
+      o(local) {
+        transition_out(if_block);
+        current = false;
+      },
+      d(detaching) {
+        if_blocks[current_block_type_index].d(detaching);
+        if (detaching)
+          detach(if_block_anchor);
+      }
+    };
+  }
   var localStorageKey = "videos";
   function instance6($$self, $$props, $$invalidate) {
-    let videoWidth;
-    let videoHeight;
+    let width;
+    let height;
     let videos = [];
     let snippet;
     const uploadsJson = localStorage.getItem(localStorageKey);
@@ -1142,21 +1165,14 @@
     $$self.$$.update = () => {
       if ($$self.$$.dirty & 1) {
         $:
-          $$invalidate(1, videoWidth = Math.min(windowWidth, 1280));
+          $$invalidate(1, width = Math.min(windowWidth, 1280));
       }
       if ($$self.$$.dirty & 2) {
         $:
-          $$invalidate(4, videoHeight = Math.floor(videoWidth * 9 / 16));
+          $$invalidate(4, height = Math.floor(width * 9 / 16));
       }
     };
-    return [
-      windowWidth,
-      videoWidth,
-      videos,
-      snippet,
-      videoHeight,
-      div0_elementresize_handler
-    ];
+    return [windowWidth, width, videos, snippet, height, div0_elementresize_handler];
   }
   var Player = class extends SvelteComponent {
     constructor(options) {
@@ -1170,6 +1186,5 @@
   new Player_default({
     target: document.body
   });
-  var observer = window.lozad();
-  observer.observe();
+  window.lozad().observe();
 })();

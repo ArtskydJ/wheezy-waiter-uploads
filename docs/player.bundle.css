@@ -47,13 +47,21 @@ body {
   margin: 0;
   padding: 0;
 }
-.split.svelte-14cioil.svelte-14cioil {
+.split.svelte-114633p.svelte-114633p {
   display: flex;
   flex-direction: row;
   max-height: 100%;
 }
-.split.svelte-14cioil > div.svelte-14cioil {
+.split.svelte-114633p > div.svelte-114633p {
   max-height: 100%;
   overflow-y: auto;
   flex: 1 0 auto;
+}
+.left.svelte-114633p.svelte-114633p {
+  flex-basis: calc(100% - 350px);
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.right.svelte-114633p.svelte-114633p {
+  flex-basis: 350px;
 }

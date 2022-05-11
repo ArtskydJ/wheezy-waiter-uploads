@@ -31,23 +31,25 @@
 	}
 
 	let windowWidth
-	$: videoWidth = Math.min(windowWidth, 1280)
-	$: videoHeight = Math.floor(videoWidth * 9 / 16)
+	$: width = Math.min(windowWidth, 1280)
+	$: height = Math.floor(width * 9 / 16)
 
 	window.addEventListener('hashchange', loadVideoFromHash)
 </script>
 
-<div class="split">
-	<div style="flex-basis: calc(100% - 350px); overflow-x: hidden; overflow-y: scroll;" bind:clientWidth={windowWidth}>
-		{#if snippet}
-			<Video snippet={snippet} width={videoWidth} height={videoHeight} autoplay={true} />
+{#if !snippet}
+	<p style="text-align: center;">Loading...</p>
+{:else}
+	<div class="split">
+		<div class="left" bind:clientWidth={windowWidth}>
+			<Video {snippet} {width} {height} autoplay={true} />
 			<Description {snippet} />
-		{/if}
+		</div>
+		<div class="right">
+			<Sidebar {videos} currentVideoId={snippet.resourceId.videoId} />
+		</div>
 	</div>
-	<div style="flex-basis: 350px">
-		<Sidebar {videos} currentVideoId={snippet?.resourceId?.videoId} />
-	</div>
-</div>
+{/if}
 
 <style>
 	:global(body) {
@@ -63,5 +65,13 @@
 		max-height: 100%;
 		overflow-y: auto;
 		flex: 1 0 auto;
+	}
+	.left {
+		flex-basis: calc(100% - 350px);
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+	.right {
+		flex-basis: 350px;
 	}
 </style>
