@@ -3,10 +3,12 @@
 	import Video from './Video.svelte'
 	import Description from './Description.svelte'
 
+	const localStorageKey = 'videos'
+
 	let videos = []
 	let snippet
 
-	const uploadsJson = localStorage.getItem('videos')
+	const uploadsJson = localStorage.getItem(localStorageKey)
 	if (uploadsJson) {
 		videos = JSON.parse(uploadsJson)
 		loadVideoFromHash()
@@ -17,7 +19,7 @@
 			.then(json => {
 				videos = JSON.parse(json)
 				loadVideoFromHash()
-				localStorage.setItem('videos', json)
+				localStorage.setItem(localStorageKey, json)
 			})
 	}
 
@@ -39,11 +41,11 @@
 	<div style="flex-basis: calc(100% - 350px); overflow-x: hidden; overflow-y: scroll;" bind:clientWidth={windowWidth}>
 		{#if snippet}
 			<Video snippet={snippet} width={videoWidth} height={videoHeight} autoplay={true} />
-			<Description snippet={snippet} />
+			<Description {snippet} />
 		{/if}
 	</div>
 	<div style="flex-basis: 350px">
-		<Sidebar {videos} currentVideoId={snippet.resourceId.videoId} />
+		<Sidebar {videos} currentVideoId={snippet?.resourceId?.videoId} />
 	</div>
 </div>
 

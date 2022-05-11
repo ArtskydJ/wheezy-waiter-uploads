@@ -1028,7 +1028,7 @@
     sidebar = new Sidebar_default({
       props: {
         videos: ctx[2],
-        currentVideoId: ctx[3].resourceId.videoId
+        currentVideoId: ctx[3]?.resourceId?.videoId
       }
     });
     return {
@@ -1084,7 +1084,7 @@
         if (dirty & 4)
           sidebar_changes.videos = ctx2[2];
         if (dirty & 8)
-          sidebar_changes.currentVideoId = ctx2[3].resourceId.videoId;
+          sidebar_changes.currentVideoId = ctx2[3]?.resourceId?.videoId;
         sidebar.$set(sidebar_changes);
       },
       i(local) {
@@ -1109,12 +1109,13 @@
       }
     };
   }
+  var localStorageKey = "videos";
   function instance6($$self, $$props, $$invalidate) {
     let videoWidth;
     let videoHeight;
     let videos = [];
     let snippet;
-    const uploadsJson = localStorage.getItem("videos");
+    const uploadsJson = localStorage.getItem(localStorageKey);
     if (uploadsJson) {
       videos = JSON.parse(uploadsJson);
       loadVideoFromHash();
@@ -1123,7 +1124,7 @@
       fetch("./player.json").then((response) => response.text()).then((json) => {
         $$invalidate(2, videos = JSON.parse(json));
         loadVideoFromHash();
-        localStorage.setItem("videos", json);
+        localStorage.setItem(localStorageKey, json);
       });
     }
     function loadVideoFromHash() {
