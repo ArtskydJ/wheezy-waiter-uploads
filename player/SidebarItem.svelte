@@ -8,7 +8,6 @@
 
 	const sizeMultiplier = 0.6
 
-	$: src = snippet.thumbnails.default.url
 	$: width = snippet.thumbnails.default.width * sizeMultiplier
 	$: height = snippet.thumbnails.default.height * sizeMultiplier
 
@@ -20,7 +19,7 @@
 </script>
 
 <a class="item" title="{hoverText}" href="#{snippet.resourceId.videoId}" data-selected={isSelected}>
-	<img class="lozad" data-src={src} {width} {height} alt="thumbnail" />
+	<img class="lozad" data-src={snippet.thumbnails.default.url} {width} {height} alt="thumbnail" />
 	<div class="text">
 		{snippet.title}
 		<div class="small"><Date isoDate={snippet.publishedAt} /></div>
