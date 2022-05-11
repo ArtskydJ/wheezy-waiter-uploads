@@ -9,19 +9,22 @@
 	const uploadsJson = localStorage.getItem('videos')
 	if (uploadsJson) {
 		videos = JSON.parse(uploadsJson)
+		loadVideoFromHash()
 	} else {
 		console.log('Fetching video list')
 		fetch('./player.json')
 			.then(response => response.text())
 			.then(json => {
 				videos = JSON.parse(json)
+				loadVideoFromHash()
 				localStorage.setItem('videos', json)
 			})
 	}
 
-	function onHashChange() {
+	function loadVideoFromHash() {
 		const videoId = document.location.hash.replace('#', '')
-		snippet = (videos.find(v => v.snippet.resourceId.videoId === videoId) || videos[0]).snippet
+		const video = videos.find(v => v.snippet.resourceId.videoId === videoId) || videos[0]
+		snippet = video.snippet
 		document.title = snippet.title
 	}
 
@@ -29,9 +32,7 @@
 	$: videoWidth = Math.min(windowWidth, 1280)
 	$: videoHeight = Math.floor(videoWidth * 9 / 16)
 
-	onHashChange()
-
-	window.addEventListener('hashchange', onHashChange)
+	window.addEventListener('hashchange', loadVideoFromHash)
 </script>
 
 <div class="split">

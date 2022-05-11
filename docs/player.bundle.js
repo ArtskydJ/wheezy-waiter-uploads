@@ -1117,21 +1117,23 @@
     const uploadsJson = localStorage.getItem("videos");
     if (uploadsJson) {
       videos = JSON.parse(uploadsJson);
+      loadVideoFromHash();
     } else {
       console.log("Fetching video list");
       fetch("./player.json").then((response) => response.text()).then((json) => {
         $$invalidate(2, videos = JSON.parse(json));
+        loadVideoFromHash();
         localStorage.setItem("videos", json);
       });
     }
-    function onHashChange() {
+    function loadVideoFromHash() {
       const videoId = document.location.hash.replace("#", "");
-      $$invalidate(3, snippet = (videos.find((v) => v.snippet.resourceId.videoId === videoId) || videos[0]).snippet);
+      const video = videos.find((v) => v.snippet.resourceId.videoId === videoId) || videos[0];
+      $$invalidate(3, snippet = video.snippet);
       document.title = snippet.title;
     }
     let windowWidth;
-    onHashChange();
-    window.addEventListener("hashchange", onHashChange);
+    window.addEventListener("hashchange", loadVideoFromHash);
     function div0_elementresize_handler() {
       windowWidth = this.clientWidth;
       $$invalidate(0, windowWidth);
