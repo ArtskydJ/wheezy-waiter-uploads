@@ -6,8 +6,8 @@ YouTube does not have great support for chronologically watching every video fro
 So I made a [website][site] to show all the YouTube videos from WheezyWaiter.
 
 
-other channels
---------------
+Other YouTube Channels
+----------------------
 
 In the future, I might generalize this so you can watch videos from any channel you want.
 
@@ -24,7 +24,7 @@ To try it yourself:
 9. Refresh the page.
 
 
-development
+Development
 -----------
 
 Install node.js/npm.
@@ -37,7 +37,14 @@ npm run dev
 Then open your browser to localhost:8080.
 
 
+License
+-------
+
+[MIT][mit]
+
+
 [site]: https://artskydj.github.io/wheezy-waiter-uploads/
 [createapikey]: https://console.cloud.google.com/apis/dashboard
 [enableapikey]: https://console.developers.google.com/apis/enabled
 [puller]: https://artskydj.github.io/wheezy-waiter-uploads/youtube-playlist-puller.html
+[mit]: https://choosealicense.com/licenses/mit/
