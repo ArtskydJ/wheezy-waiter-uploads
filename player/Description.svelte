@@ -11,7 +11,7 @@
 
 	function linkify(text) {
 		return text
-			// .replace(/((?:[a-z0-9-]+\.)+[a-z0-9-]{2,20}(\/.+?)?)(?: |$)/gi, '<a href="http://$1" title="http://$1">$1</a>')
+			.replace(/(?<!(?:\.|\/))(\b(?:[a-z0-9-]+\.)+[a-z0-9-]{2,20}(\/.+?)?)(?: |$)/gi, '<a href="http://$1" title="http://$1">$1</a>')
 			.replace(/(?<!(?:>|"))(https?:\/\/[^ \n]+)/g, '<a href="$1" title="$1">$1</a>')
 	}
 </script>
