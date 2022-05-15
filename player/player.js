@@ -1,7 +1,5 @@
-import Player from './Player.svelte'
+import App from './App.svelte'
 
-new Player({
+new App({
 	target: document.body,
 })
-
-window.lozad().observe()

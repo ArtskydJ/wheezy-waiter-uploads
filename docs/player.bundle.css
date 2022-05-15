@@ -1,5 +1,8 @@
 /* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/player/SidebarItem.esbuild-svelte-fake-css */
-.item.svelte-1u872v7 {
+img.svelte-8pecld {
+  color: transparent;
+}
+.item.svelte-8pecld {
   display: flex;
   flex-direction: row;
   cursor: pointer;
@@ -10,17 +13,17 @@
   text-decoration: none;
   color: black;
 }
-.item.svelte-1u872v7:hover {
+.item.svelte-8pecld:hover {
   border: 1px solid #aaa;
   background-color: #ddd;
 }
-.item[data-selected=true].svelte-1u872v7 {
+.item[data-selected=true].svelte-8pecld {
   background-color: #eee;
 }
-.text.svelte-1u872v7 {
+.text.svelte-8pecld {
   padding: 0 0.5em;
 }
-.small.svelte-1u872v7 {
+.small.svelte-8pecld {
   font-size: 0.6em;
 }
 
@@ -47,21 +50,26 @@ body {
   margin: 0;
   padding: 0;
 }
-.split.svelte-114633p.svelte-114633p {
+.split.svelte-17280ld.svelte-17280ld {
   display: flex;
   flex-direction: row;
   max-height: 100%;
 }
-.split.svelte-114633p > div.svelte-114633p {
+.split.svelte-17280ld > div.svelte-17280ld {
   max-height: 100%;
-  overflow-y: auto;
   flex: 1 0 auto;
-}
-.left.svelte-114633p.svelte-114633p {
-  flex-basis: calc(100% - 350px);
   overflow-x: hidden;
   overflow-y: scroll;
 }
-.right.svelte-114633p.svelte-114633p {
+.split.svelte-17280ld > .left.svelte-17280ld {
+  flex-basis: calc(100% - 350px);
+}
+.split.svelte-17280ld > .right.svelte-17280ld {
   flex-basis: 350px;
+}
+
+/* fakecss:C:/Users/Joseph/Github/wheezy-waiter-uploads/player/App.esbuild-svelte-fake-css */
+body {
+  margin: 0;
+  padding: 0;
 }

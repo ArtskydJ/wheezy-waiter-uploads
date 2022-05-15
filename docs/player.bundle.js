@@ -1,6 +1,85 @@
 (() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target, mod));
+
+  // node_modules/lozad/dist/lozad.min.js
+  var require_lozad_min = __commonJS({
+    "node_modules/lozad/dist/lozad.min.js"(exports, module) {
+      !function(t, e) {
+        typeof exports == "object" && typeof module != "undefined" ? module.exports = e() : typeof define == "function" && define.amd ? define(e) : t.lozad = e();
+      }(exports, function() {
+        "use strict";
+        var g = typeof document != "undefined" && document.documentMode, f = { rootMargin: "0px", threshold: 0, load: function(t) {
+          if (t.nodeName.toLowerCase() === "picture") {
+            var e = t.querySelector("img"), r = false;
+            e === null && (e = document.createElement("img"), r = true), g && t.getAttribute("data-iesrc") && (e.src = t.getAttribute("data-iesrc")), t.getAttribute("data-alt") && (e.alt = t.getAttribute("data-alt")), r && t.append(e);
+          }
+          if (t.nodeName.toLowerCase() === "video" && !t.getAttribute("data-src") && t.children) {
+            for (var a = t.children, o = void 0, i = 0; i <= a.length - 1; i++)
+              (o = a[i].getAttribute("data-src")) && (a[i].src = o);
+            t.load();
+          }
+          t.getAttribute("data-poster") && (t.poster = t.getAttribute("data-poster")), t.getAttribute("data-src") && (t.src = t.getAttribute("data-src")), t.getAttribute("data-srcset") && t.setAttribute("srcset", t.getAttribute("data-srcset"));
+          var n = ",";
+          if (t.getAttribute("data-background-delimiter") && (n = t.getAttribute("data-background-delimiter")), t.getAttribute("data-background-image"))
+            t.style.backgroundImage = "url('" + t.getAttribute("data-background-image").split(n).join("'),url('") + "')";
+          else if (t.getAttribute("data-background-image-set")) {
+            var d = t.getAttribute("data-background-image-set").split(n), u = d[0].substr(0, d[0].indexOf(" ")) || d[0];
+            u = u.indexOf("url(") === -1 ? "url(" + u + ")" : u, d.length === 1 ? t.style.backgroundImage = u : t.setAttribute("style", (t.getAttribute("style") || "") + "background-image: " + u + "; background-image: -webkit-image-set(" + d + "); background-image: image-set(" + d + ")");
+          }
+          t.getAttribute("data-toggle-class") && t.classList.toggle(t.getAttribute("data-toggle-class"));
+        }, loaded: function() {
+        } };
+        function A(t) {
+          t.setAttribute("data-loaded", true);
+        }
+        var m = function(t) {
+          return t.getAttribute("data-loaded") === "true";
+        }, v = function(t) {
+          var e = 1 < arguments.length && arguments[1] !== void 0 ? arguments[1] : document;
+          return t instanceof Element ? [t] : t instanceof NodeList ? t : e.querySelectorAll(t);
+        };
+        return function() {
+          var r, a, o = 0 < arguments.length && arguments[0] !== void 0 ? arguments[0] : ".lozad", t = 1 < arguments.length && arguments[1] !== void 0 ? arguments[1] : {}, e = Object.assign({}, f, t), i = e.root, n = e.rootMargin, d = e.threshold, u = e.load, g2 = e.loaded, s = void 0;
+          typeof window != "undefined" && window.IntersectionObserver && (s = new IntersectionObserver((r = u, a = g2, function(t2, e2) {
+            t2.forEach(function(t3) {
+              (0 < t3.intersectionRatio || t3.isIntersecting) && (e2.unobserve(t3.target), m(t3.target) || (r(t3.target), A(t3.target), a(t3.target)));
+            });
+          }), { root: i, rootMargin: n, threshold: d }));
+          for (var c, l = v(o, i), b = 0; b < l.length; b++)
+            (c = l[b]).getAttribute("data-placeholder-background") && (c.style.background = c.getAttribute("data-placeholder-background"));
+          return { observe: function() {
+            for (var t2 = v(o, i), e2 = 0; e2 < t2.length; e2++)
+              m(t2[e2]) || (s ? s.observe(t2[e2]) : (u(t2[e2]), A(t2[e2]), g2(t2[e2])));
+          }, triggerLoad: function(t2) {
+            m(t2) || (u(t2), A(t2), g2(t2));
+          }, observer: s };
+        };
+      });
+    }
+  });
+
   // node_modules/svelte/internal/index.mjs
   function noop() {
+  }
+  function is_promise(value) {
+    return value && typeof value === "object" && typeof value.then === "function";
   }
   function run(fn) {
     return fn();
@@ -234,6 +313,84 @@
       block.o(local);
     }
   }
+  function handle_promise(promise, info) {
+    const token = info.token = {};
+    function update2(type, index, key, value) {
+      if (info.token !== token)
+        return;
+      info.resolved = value;
+      let child_ctx = info.ctx;
+      if (key !== void 0) {
+        child_ctx = child_ctx.slice();
+        child_ctx[key] = value;
+      }
+      const block = type && (info.current = type)(child_ctx);
+      let needs_flush = false;
+      if (info.block) {
+        if (info.blocks) {
+          info.blocks.forEach((block2, i) => {
+            if (i !== index && block2) {
+              group_outros();
+              transition_out(block2, 1, 1, () => {
+                if (info.blocks[i] === block2) {
+                  info.blocks[i] = null;
+                }
+              });
+              check_outros();
+            }
+          });
+        } else {
+          info.block.d(1);
+        }
+        block.c();
+        transition_in(block, 1);
+        block.m(info.mount(), info.anchor);
+        needs_flush = true;
+      }
+      info.block = block;
+      if (info.blocks)
+        info.blocks[index] = block;
+      if (needs_flush) {
+        flush();
+      }
+    }
+    if (is_promise(promise)) {
+      const current_component2 = get_current_component();
+      promise.then((value) => {
+        set_current_component(current_component2);
+        update2(info.then, 1, info.value, value);
+        set_current_component(null);
+      }, (error) => {
+        set_current_component(current_component2);
+        update2(info.catch, 2, info.error, error);
+        set_current_component(null);
+        if (!info.hasCatch) {
+          throw error;
+        }
+      });
+      if (info.current !== info.pending) {
+        update2(info.pending, 0);
+        return true;
+      }
+    } else {
+      if (info.current !== info.then) {
+        update2(info.then, 1, info.value, promise);
+        return true;
+      }
+      info.resolved = promise;
+    }
+  }
+  function update_await_block_branch(info, ctx, dirty) {
+    const child_ctx = ctx.slice();
+    const { resolved } = info;
+    if (info.current === info.then) {
+      child_ctx[info.value] = resolved;
+    }
+    if (info.current === info.catch) {
+      child_ctx[info.error] = resolved;
+    }
+    info.block.p(child_ctx, dirty);
+  }
   var globals = typeof window !== "undefined" ? window : typeof globalThis !== "undefined" ? globalThis : global;
   function outro_and_destroy_block(block, lookup) {
     transition_out(block, 1, 1, () => {
@@ -343,7 +500,7 @@
     }
     component.$$.dirty[i / 31 | 0] |= 1 << i % 31;
   }
-  function init(component, options, instance7, create_fragment7, not_equal, props, append_styles, dirty = [-1]) {
+  function init(component, options, instance8, create_fragment8, not_equal, props, append_styles, dirty = [-1]) {
     const parent_component = current_component;
     set_current_component(component);
     const $$ = component.$$ = {
@@ -366,7 +523,7 @@
     };
     append_styles && append_styles($$.root);
     let ready = false;
-    $$.ctx = instance7 ? instance7(component, options.props || {}, (i, ret, ...rest) => {
+    $$.ctx = instance8 ? instance8(component, options.props || {}, (i, ret, ...rest) => {
       const value = rest.length ? rest[0] : ret;
       if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
         if (!$$.skip_bound && $$.bound[i])
@@ -379,7 +536,7 @@
     $$.update();
     ready = true;
     run_all($$.before_update);
-    $$.fragment = create_fragment7 ? create_fragment7($$.ctx) : false;
+    $$.fragment = create_fragment8 ? create_fragment8($$.ctx) : false;
     if (options.target) {
       if (options.hydrate) {
         start_hydrating();
@@ -553,14 +710,14 @@
         t2 = space();
         div0 = element("div");
         create_component(date.$$.fragment);
-        attr(img, "class", "lozad");
+        attr(img, "class", "lozad svelte-8pecld");
         attr(img, "data-src", img_data_src_value = ctx[2].thumbnails.default.url);
         attr(img, "width", ctx[4]);
         attr(img, "height", ctx[3]);
         attr(img, "alt", "thumbnail");
-        attr(div0, "class", "small svelte-1u872v7");
-        attr(div1, "class", "text svelte-1u872v7");
-        attr(a, "class", "item svelte-1u872v7");
+        attr(div0, "class", "small svelte-8pecld");
+        attr(div1, "class", "text svelte-8pecld");
+        attr(a, "class", "item svelte-8pecld");
         attr(a, "title", ctx[0]);
         attr(a, "href", a_href_value = "#" + ctx[2].resourceId.videoId);
         attr(a, "data-selected", ctx[1]);
@@ -625,7 +782,7 @@
     let height;
     let { hoverText } = $$props;
     let { isSelected } = $$props;
-    let { snippet } = $$props;
+    let { video } = $$props;
     onMount(() => {
       if (isSelected) {
         document.querySelector('.item[data-selected="true"]').scrollIntoView();
@@ -636,35 +793,35 @@
         $$invalidate(0, hoverText = $$props2.hoverText);
       if ("isSelected" in $$props2)
         $$invalidate(1, isSelected = $$props2.isSelected);
-      if ("snippet" in $$props2)
-        $$invalidate(2, snippet = $$props2.snippet);
+      if ("video" in $$props2)
+        $$invalidate(2, video = $$props2.video);
     };
     $$self.$$.update = () => {
       if ($$self.$$.dirty & 4) {
         $:
-          $$invalidate(4, width = snippet.thumbnails.default.width * sizeMultiplier);
+          $$invalidate(4, width = video.thumbnails.default.width * sizeMultiplier);
       }
       if ($$self.$$.dirty & 4) {
         $:
-          $$invalidate(3, height = snippet.thumbnails.default.height * sizeMultiplier);
+          $$invalidate(3, height = video.thumbnails.default.height * sizeMultiplier);
       }
     };
-    return [hoverText, isSelected, snippet, height, width];
+    return [hoverText, isSelected, video, height, width];
   }
   var SidebarItem = class extends SvelteComponent {
     constructor(options) {
       super();
-      init(this, options, instance2, create_fragment2, safe_not_equal, { hoverText: 0, isSelected: 1, snippet: 2 });
+      init(this, options, instance2, create_fragment2, safe_not_equal, { hoverText: 0, isSelected: 1, video: 2 });
     }
   };
   var SidebarItem_default = SidebarItem;
 
   // player/Sidebar.svelte
+  var import_lozad = __toESM(require_lozad_min(), 1);
   function get_each_context(ctx, list, i) {
     const child_ctx = ctx.slice();
-    child_ctx[2] = list[i].snippet;
-    child_ctx[3] = list[i].etag;
-    child_ctx[5] = i;
+    child_ctx[2] = list[i];
+    child_ctx[4] = i;
     return child_ctx;
   }
   function create_each_block(key_1, ctx) {
@@ -673,9 +830,9 @@
     let current;
     sidebaritem = new SidebarItem_default({
       props: {
-        hoverText: ctx[5] + 1 + " of " + ctx[0].length,
+        hoverText: ctx[4] + 1 + " of " + ctx[0].length,
         isSelected: ctx[2].resourceId.videoId === ctx[1],
-        snippet: ctx[2]
+        video: ctx[2]
       }
     });
     return {
@@ -695,11 +852,11 @@
         ctx = new_ctx;
         const sidebaritem_changes = {};
         if (dirty & 1)
-          sidebaritem_changes.hoverText = ctx[5] + 1 + " of " + ctx[0].length;
+          sidebaritem_changes.hoverText = ctx[4] + 1 + " of " + ctx[0].length;
         if (dirty & 3)
           sidebaritem_changes.isSelected = ctx[2].resourceId.videoId === ctx[1];
         if (dirty & 1)
-          sidebaritem_changes.snippet = ctx[2];
+          sidebaritem_changes.video = ctx[2];
         sidebaritem.$set(sidebaritem_changes);
       },
       i(local) {
@@ -780,6 +937,10 @@
   function instance3($$self, $$props, $$invalidate) {
     let { videos } = $$props;
     let { currentVideoId } = $$props;
+    onMount(() => {
+      const observer = (0, import_lozad.default)();
+      observer.observe();
+    });
     $$self.$$set = ($$props2) => {
       if ("videos" in $$props2)
         $$invalidate(0, videos = $$props2.videos);
@@ -805,10 +966,10 @@
         iframe = element("iframe");
         attr(iframe, "title", "youtube");
         iframe.allowFullscreen = "allowFullScreen";
-        if (!src_url_equal(iframe.src, iframe_src_value = ctx[2]))
+        if (!src_url_equal(iframe.src, iframe_src_value = "https://www.youtube.com/embed/" + ctx[0].resourceId.videoId + "?ecver=1&autoplay=" + (ctx[3] ? 1 : 0) + "&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=1280&height=720&rel=0"))
           attr(iframe, "src", iframe_src_value);
-        attr(iframe, "width", ctx[0]);
-        attr(iframe, "height", ctx[1]);
+        attr(iframe, "width", ctx[1]);
+        attr(iframe, "height", ctx[2]);
         attr(iframe, "allowtransparency", "true");
         attr(iframe, "frameborder", "0");
       },
@@ -816,14 +977,14 @@
         insert(target, iframe, anchor);
       },
       p(ctx2, [dirty]) {
-        if (dirty & 4 && !src_url_equal(iframe.src, iframe_src_value = ctx2[2])) {
+        if (dirty & 9 && !src_url_equal(iframe.src, iframe_src_value = "https://www.youtube.com/embed/" + ctx2[0].resourceId.videoId + "?ecver=1&autoplay=" + (ctx2[3] ? 1 : 0) + "&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=1280&height=720&rel=0")) {
           attr(iframe, "src", iframe_src_value);
         }
-        if (dirty & 1) {
-          attr(iframe, "width", ctx2[0]);
-        }
         if (dirty & 2) {
-          attr(iframe, "height", ctx2[1]);
+          attr(iframe, "width", ctx2[1]);
+        }
+        if (dirty & 4) {
+          attr(iframe, "height", ctx2[2]);
         }
       },
       i: noop,
@@ -835,37 +996,30 @@
     };
   }
   function instance4($$self, $$props, $$invalidate) {
-    let src;
-    let { snippet } = $$props;
+    let { video } = $$props;
     let { width } = $$props;
     let { height } = $$props;
-    let { autoplay = false } = $$props;
+    let { autoplay: autoplay2 = false } = $$props;
     $$self.$$set = ($$props2) => {
-      if ("snippet" in $$props2)
-        $$invalidate(3, snippet = $$props2.snippet);
+      if ("video" in $$props2)
+        $$invalidate(0, video = $$props2.video);
       if ("width" in $$props2)
-        $$invalidate(0, width = $$props2.width);
+        $$invalidate(1, width = $$props2.width);
       if ("height" in $$props2)
-        $$invalidate(1, height = $$props2.height);
+        $$invalidate(2, height = $$props2.height);
       if ("autoplay" in $$props2)
-        $$invalidate(4, autoplay = $$props2.autoplay);
+        $$invalidate(3, autoplay2 = $$props2.autoplay);
     };
-    $$self.$$.update = () => {
-      if ($$self.$$.dirty & 24) {
-        $:
-          $$invalidate(2, src = `https://www.youtube.com/embed/${snippet.resourceId.videoId}?ecver=1&autoplay=${autoplay ? 1 : 0}&iv_load_policy=1&yt:stretch=16:9&autohide=1&color=red&width=1280&height=720`);
-      }
-    };
-    return [width, height, src, snippet, autoplay];
+    return [video, width, height, autoplay2];
   }
   var Video = class extends SvelteComponent {
     constructor(options) {
       super();
       init(this, options, instance4, create_fragment4, safe_not_equal, {
-        snippet: 3,
-        width: 0,
-        height: 1,
-        autoplay: 4
+        video: 0,
+        width: 1,
+        height: 2,
+        autoplay: 3
       });
     }
   };
@@ -879,7 +1033,7 @@
     let hr;
     let t1;
     let article;
-    let raw_value = linkify(ctx[0].description) + "";
+    let raw_value = linkify(escape_html(ctx[0].description)) + "";
     let current;
     date = new Date_default({
       props: { isoDate: ctx[0].publishedAt }
@@ -911,7 +1065,7 @@
         if (dirty & 1)
           date_changes.isoDate = ctx2[0].publishedAt;
         date.$set(date_changes);
-        if ((!current || dirty & 1) && raw_value !== (raw_value = linkify(ctx2[0].description) + ""))
+        if ((!current || dirty & 1) && raw_value !== (raw_value = linkify(escape_html(ctx2[0].description)) + ""))
           article.innerHTML = raw_value;
         ;
       },
@@ -932,30 +1086,35 @@
       }
     };
   }
+  function escape_html(str) {
+    const p = document.createElement("p");
+    p.appendChild(document.createTextNode(str));
+    return p.innerHTML;
+  }
   function linkify(text2) {
-    return text2.replace(/(https?:\/\/[^ \n]+)/g, '<a href="$1" title="$1">$1</a>');
+    return text2.replace(/(?<!(?:>|"))(https?:\/\/[^ \n]+)/g, '<a href="$1" title="$1">$1</a>');
   }
   function instance5($$self, $$props, $$invalidate) {
-    let { snippet } = $$props;
+    let { video } = $$props;
     $$self.$$set = ($$props2) => {
-      if ("snippet" in $$props2)
-        $$invalidate(0, snippet = $$props2.snippet);
+      if ("video" in $$props2)
+        $$invalidate(0, video = $$props2.video);
     };
-    return [snippet];
+    return [video];
   }
   var Description = class extends SvelteComponent {
     constructor(options) {
       super();
-      init(this, options, instance5, create_fragment5, safe_not_equal, { snippet: 0 });
+      init(this, options, instance5, create_fragment5, safe_not_equal, { video: 0 });
     }
   };
   var Description_default = Description;
 
   // player/Player.svelte
-  function create_else_block(ctx) {
+  function create_fragment6(ctx) {
     let div2;
     let div0;
-    let video;
+    let video_1;
     let t0;
     let description;
     let div0_resize_listener;
@@ -963,40 +1122,40 @@
     let div1;
     let sidebar;
     let current;
-    video = new Video_default({
+    video_1 = new Video_default({
       props: {
-        snippet: ctx[3],
-        width: ctx[1],
+        video: ctx[1],
+        width: ctx[3],
         height: ctx[4],
-        autoplay: true
+        autoplay
       }
     });
-    description = new Description_default({ props: { snippet: ctx[3] } });
+    description = new Description_default({ props: { video: ctx[1] } });
     sidebar = new Sidebar_default({
       props: {
-        videos: ctx[2],
-        currentVideoId: ctx[3].resourceId.videoId
+        videos: ctx[0],
+        currentVideoId: ctx[1].resourceId.videoId
       }
     });
     return {
       c() {
         div2 = element("div");
         div0 = element("div");
-        create_component(video.$$.fragment);
+        create_component(video_1.$$.fragment);
         t0 = space();
         create_component(description.$$.fragment);
         t1 = space();
         div1 = element("div");
         create_component(sidebar.$$.fragment);
-        attr(div0, "class", "left svelte-114633p");
+        attr(div0, "class", "left svelte-17280ld");
         add_render_callback(() => ctx[5].call(div0));
-        attr(div1, "class", "right svelte-114633p");
-        attr(div2, "class", "split svelte-114633p");
+        attr(div1, "class", "right svelte-17280ld");
+        attr(div2, "class", "split svelte-17280ld");
       },
       m(target, anchor) {
         insert(target, div2, anchor);
         append(div2, div0);
-        mount_component(video, div0, null);
+        mount_component(video_1, div0, null);
         append(div0, t0);
         mount_component(description, div0, null);
         div0_resize_listener = add_resize_listener(div0, ctx[5].bind(div0));
@@ -1005,36 +1164,36 @@
         mount_component(sidebar, div1, null);
         current = true;
       },
-      p(ctx2, dirty) {
-        const video_changes = {};
-        if (dirty & 8)
-          video_changes.snippet = ctx2[3];
+      p(ctx2, [dirty]) {
+        const video_1_changes = {};
         if (dirty & 2)
-          video_changes.width = ctx2[1];
-        if (dirty & 16)
-          video_changes.height = ctx2[4];
-        video.$set(video_changes);
-        const description_changes = {};
+          video_1_changes.video = ctx2[1];
         if (dirty & 8)
-          description_changes.snippet = ctx2[3];
+          video_1_changes.width = ctx2[3];
+        if (dirty & 16)
+          video_1_changes.height = ctx2[4];
+        video_1.$set(video_1_changes);
+        const description_changes = {};
+        if (dirty & 2)
+          description_changes.video = ctx2[1];
         description.$set(description_changes);
         const sidebar_changes = {};
-        if (dirty & 4)
-          sidebar_changes.videos = ctx2[2];
-        if (dirty & 8)
-          sidebar_changes.currentVideoId = ctx2[3].resourceId.videoId;
+        if (dirty & 1)
+          sidebar_changes.videos = ctx2[0];
+        if (dirty & 2)
+          sidebar_changes.currentVideoId = ctx2[1].resourceId.videoId;
         sidebar.$set(sidebar_changes);
       },
       i(local) {
         if (current)
           return;
-        transition_in(video.$$.fragment, local);
+        transition_in(video_1.$$.fragment, local);
         transition_in(description.$$.fragment, local);
         transition_in(sidebar.$$.fragment, local);
         current = true;
       },
       o(local) {
-        transition_out(video.$$.fragment, local);
+        transition_out(video_1.$$.fragment, local);
         transition_out(description.$$.fragment, local);
         transition_out(sidebar.$$.fragment, local);
         current = false;
@@ -1042,14 +1201,104 @@
       d(detaching) {
         if (detaching)
           detach(div2);
-        destroy_component(video);
+        destroy_component(video_1);
         destroy_component(description);
         div0_resize_listener();
         destroy_component(sidebar);
       }
     };
   }
-  function create_if_block(ctx) {
+  var autoplay = true;
+  function instance6($$self, $$props, $$invalidate) {
+    let width;
+    let height;
+    let { videos } = $$props;
+    let { video } = $$props;
+    let windowWidth;
+    function div0_elementresize_handler() {
+      windowWidth = this.clientWidth;
+      $$invalidate(2, windowWidth);
+    }
+    $$self.$$set = ($$props2) => {
+      if ("videos" in $$props2)
+        $$invalidate(0, videos = $$props2.videos);
+      if ("video" in $$props2)
+        $$invalidate(1, video = $$props2.video);
+    };
+    $$self.$$.update = () => {
+      if ($$self.$$.dirty & 2) {
+        $:
+          console.log("player video", video);
+      }
+      if ($$self.$$.dirty & 4) {
+        $:
+          $$invalidate(3, width = Math.min(windowWidth, 1280));
+      }
+      if ($$self.$$.dirty & 8) {
+        $:
+          $$invalidate(4, height = Math.floor(width * 9 / 16));
+      }
+    };
+    return [videos, video, windowWidth, width, height, div0_elementresize_handler];
+  }
+  var Player = class extends SvelteComponent {
+    constructor(options) {
+      super();
+      init(this, options, instance6, create_fragment6, safe_not_equal, { videos: 0, video: 1 });
+    }
+  };
+  var Player_default = Player;
+
+  // player/App.svelte
+  function create_catch_block(ctx) {
+    return {
+      c: noop,
+      m: noop,
+      p: noop,
+      i: noop,
+      o: noop,
+      d: noop
+    };
+  }
+  function create_then_block(ctx) {
+    let player;
+    let current;
+    player = new Player_default({
+      props: {
+        videos: ctx[1],
+        video: ctx[0]
+      }
+    });
+    return {
+      c() {
+        create_component(player.$$.fragment);
+      },
+      m(target, anchor) {
+        mount_component(player, target, anchor);
+        current = true;
+      },
+      p(ctx2, dirty) {
+        const player_changes = {};
+        if (dirty & 1)
+          player_changes.video = ctx2[0];
+        player.$set(player_changes);
+      },
+      i(local) {
+        if (current)
+          return;
+        transition_in(player.$$.fragment, local);
+        current = true;
+      },
+      o(local) {
+        transition_out(player.$$.fragment, local);
+        current = false;
+      },
+      d(detaching) {
+        destroy_component(player, detaching);
+      }
+    };
+  }
+  function create_pending_block(ctx) {
     let p;
     return {
       c() {
@@ -1069,122 +1318,121 @@
       }
     };
   }
-  function create_fragment6(ctx) {
-    let current_block_type_index;
-    let if_block;
-    let if_block_anchor;
+  function create_fragment7(ctx) {
+    let await_block_anchor;
+    let promise;
     let current;
-    const if_block_creators = [create_if_block, create_else_block];
-    const if_blocks = [];
-    function select_block_type(ctx2, dirty) {
-      if (!ctx2[3])
-        return 0;
-      return 1;
-    }
-    current_block_type_index = select_block_type(ctx, -1);
-    if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
+    let info = {
+      ctx,
+      current: null,
+      token: null,
+      hasCatch: false,
+      pending: create_pending_block,
+      then: create_then_block,
+      catch: create_catch_block,
+      value: 1,
+      blocks: [, , ,]
+    };
+    handle_promise(promise = ctx[2], info);
     return {
       c() {
-        if_block.c();
-        if_block_anchor = empty();
+        await_block_anchor = empty();
+        info.block.c();
       },
       m(target, anchor) {
-        if_blocks[current_block_type_index].m(target, anchor);
-        insert(target, if_block_anchor, anchor);
+        insert(target, await_block_anchor, anchor);
+        info.block.m(target, info.anchor = anchor);
+        info.mount = () => await_block_anchor.parentNode;
+        info.anchor = await_block_anchor;
         current = true;
       },
-      p(ctx2, [dirty]) {
-        let previous_block_index = current_block_type_index;
-        current_block_type_index = select_block_type(ctx2, dirty);
-        if (current_block_type_index === previous_block_index) {
-          if_blocks[current_block_type_index].p(ctx2, dirty);
-        } else {
-          group_outros();
-          transition_out(if_blocks[previous_block_index], 1, 1, () => {
-            if_blocks[previous_block_index] = null;
-          });
-          check_outros();
-          if_block = if_blocks[current_block_type_index];
-          if (!if_block) {
-            if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx2);
-            if_block.c();
-          } else {
-            if_block.p(ctx2, dirty);
-          }
-          transition_in(if_block, 1);
-          if_block.m(if_block_anchor.parentNode, if_block_anchor);
-        }
+      p(new_ctx, [dirty]) {
+        ctx = new_ctx;
+        update_await_block_branch(info, ctx, dirty);
       },
       i(local) {
         if (current)
           return;
-        transition_in(if_block);
+        transition_in(info.block);
         current = true;
       },
       o(local) {
-        transition_out(if_block);
+        for (let i = 0; i < 3; i += 1) {
+          const block = info.blocks[i];
+          transition_out(block);
+        }
         current = false;
       },
       d(detaching) {
-        if_blocks[current_block_type_index].d(detaching);
         if (detaching)
-          detach(if_block_anchor);
+          detach(await_block_anchor);
+        info.block.d(detaching);
+        info.token = null;
+        info = null;
       }
     };
   }
   var localStorageKey = "videos";
-  function instance6($$self, $$props, $$invalidate) {
-    let width;
-    let height;
+  function instance7($$self, $$props, $$invalidate) {
+    let videoId;
+    let video;
     let videos = [];
-    let snippet;
-    const uploadsJson = localStorage.getItem(localStorageKey);
-    if (uploadsJson) {
-      videos = JSON.parse(uploadsJson);
-      loadVideoFromHash();
-    } else {
-      console.log("Fetching video list");
-      fetch("./player.json").then((response) => response.text()).then((json) => {
-        $$invalidate(2, videos = JSON.parse(json));
-        loadVideoFromHash();
+    let hash = document.location.hash;
+    window.addEventListener("hashchange", () => $$invalidate(3, hash = document.location.hash));
+    async function getVideos() {
+      const uploadsJson = null;
+      if (uploadsJson) {
+        $$invalidate(1, videos = JSON.parse(uploadsJson).map(({ snippet }) => snippet));
+      } else {
+        console.log("Fetching video list");
+        const response = await fetch("./player.json");
+        const json = await response.text();
+        $$invalidate(1, videos = JSON.parse(json).map(({ snippet }) => snippet));
         localStorage.setItem(localStorageKey, json);
-      });
+      }
+      console.log("then");
+      return videos;
     }
-    function loadVideoFromHash() {
-      const videoId = document.location.hash.replace("#", "");
-      const video = videos.find((v) => v.snippet.resourceId.videoId === videoId) || videos[0];
-      $$invalidate(3, snippet = video.snippet);
-      document.title = snippet.title;
-    }
-    let windowWidth;
-    window.addEventListener("hashchange", loadVideoFromHash);
-    function div0_elementresize_handler() {
-      windowWidth = this.clientWidth;
-      $$invalidate(0, windowWidth);
-    }
+    let loadingPromise = getVideos();
     $$self.$$.update = () => {
+      if ($$self.$$.dirty & 8) {
+        $:
+          $$invalidate(4, videoId = hash.replace("#", ""));
+      }
+      if ($$self.$$.dirty & 16) {
+        $:
+          console.log("videoid: ", videoId);
+      }
+      if ($$self.$$.dirty & 18) {
+        $:
+          $$invalidate(0, video = videos.find((v) => v.resourceId.videoId === videoId) || videos[0]);
+      }
+      if ($$self.$$.dirty & 3) {
+        $:
+          console.log("VIDEO", videos.length, video);
+      }
       if ($$self.$$.dirty & 1) {
         $:
-          $$invalidate(1, width = Math.min(windowWidth, 1280));
-      }
-      if ($$self.$$.dirty & 2) {
-        $:
-          $$invalidate(4, height = Math.floor(width * 9 / 16));
+          if (video) {
+            document.title = video.title;
+          }
       }
     };
-    return [windowWidth, width, videos, snippet, height, div0_elementresize_handler];
+    return [video, videos, loadingPromise, hash, videoId];
   }
-  var Player = class extends SvelteComponent {
+  var App = class extends SvelteComponent {
     constructor(options) {
       super();
-      init(this, options, instance6, create_fragment6, safe_not_equal, {});
+      init(this, options, instance7, create_fragment7, safe_not_equal, {});
     }
   };
-  var Player_default = Player;
+  var App_default = App;
 
   // player/player.js
-  new Player_default({
+  new App_default({
     target: document.body
   });
-  window.lozad().observe();
 })();
+/*! lozad.js - v1.16.0 - 2020-09-06
+* https://github.com/ApoorvSaxena/lozad.js
+* Copyright (c) 2020 Apoorv Saxena; Licensed MIT */

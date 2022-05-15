@@ -4,12 +4,12 @@
 
 	export let hoverText
 	export let isSelected
-	export let snippet
+	export let video
 
 	const sizeMultiplier = 0.6
 
-	$: width = snippet.thumbnails.default.width * sizeMultiplier
-	$: height = snippet.thumbnails.default.height * sizeMultiplier
+	$: width = video.thumbnails.default.width * sizeMultiplier
+	$: height = video.thumbnails.default.height * sizeMultiplier
 
 	onMount(() => {
 		if (isSelected) {
@@ -18,15 +18,18 @@
 	})
 </script>
 
-<a class="item" title="{hoverText}" href="#{snippet.resourceId.videoId}" data-selected={isSelected}>
-	<img class="lozad" data-src={snippet.thumbnails.default.url} {width} {height} alt="thumbnail" />
+<a class="item" title="{hoverText}" href="#{video.resourceId.videoId}" data-selected={isSelected}>
+	<img class="lozad" data-src={video.thumbnails.default.url} {width} {height} alt="thumbnail" />
 	<div class="text">
-		{snippet.title}
-		<div class="small"><Date isoDate={snippet.publishedAt} /></div>
+		{video.title}
+		<div class="small"><Date isoDate={video.publishedAt} /></div>
 	</div>
 </a>
 
 <style>
+	img {
+		color: transparent; /* hide alt text for lazy load */
+	}
 	.item {
 		display: flex;
 		flex-direction: row;

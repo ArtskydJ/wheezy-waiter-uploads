@@ -3,53 +3,27 @@
 	import Video from './Video.svelte'
 	import Description from './Description.svelte'
 
-	const localStorageKey = 'videos'
+	const autoplay = true
 
-	let videos = []
-	let snippet
+	export let videos
+	export let video
 
-	const uploadsJson = localStorage.getItem(localStorageKey)
-	if (uploadsJson) {
-		videos = JSON.parse(uploadsJson)
-		loadVideoFromHash()
-	} else {
-		console.log('Fetching video list')
-		fetch('./player.json')
-			.then(response => response.text())
-			.then(json => {
-				videos = JSON.parse(json)
-				loadVideoFromHash()
-				localStorage.setItem(localStorageKey, json)
-			})
-	}
-
-	function loadVideoFromHash() {
-		const videoId = document.location.hash.replace('#', '')
-		const video = videos.find(v => v.snippet.resourceId.videoId === videoId) || videos[0]
-		snippet = video.snippet
-		document.title = snippet.title
-	}
+	$: console.log('player video', video)
 
 	let windowWidth
 	$: width = Math.min(windowWidth, 1280)
 	$: height = Math.floor(width * 9 / 16)
-
-	window.addEventListener('hashchange', loadVideoFromHash)
 </script>
 
-{#if !snippet}
-	<p style="text-align: center;">Loading...</p>
-{:else}
-	<div class="split">
-		<div class="left" bind:clientWidth={windowWidth}>
-			<Video {snippet} {width} {height} autoplay={true} />
-			<Description {snippet} />
-		</div>
-		<div class="right">
-			<Sidebar {videos} currentVideoId={snippet.resourceId.videoId} />
-		</div>
+<div class="split">
+	<div class="left" bind:clientWidth={windowWidth}>
+		<Video {video} {width} {height} {autoplay} />
+		<Description {video} />
 	</div>
-{/if}
+	<div class="right">
+		<Sidebar {videos} currentVideoId={video.resourceId.videoId} />
+	</div>
+</div>
 
 <style>
 	:global(body) {
@@ -63,15 +37,14 @@
 	}
 	.split > div {
 		max-height: 100%;
-		overflow-y: auto;
 		flex: 1 0 auto;
-	}
-	.left {
-		flex-basis: calc(100% - 350px);
 		overflow-x: hidden;
 		overflow-y: scroll;
 	}
-	.right {
+	.split > .left {
+		flex-basis: calc(100% - 350px);
+	}
+	.split > .right {
 		flex-basis: 350px;
 	}
 </style>
